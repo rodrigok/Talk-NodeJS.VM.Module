@@ -1,0 +1,13 @@
+const vm = require("vm");
+
+let code = "Math.random() * 1000";
+let result = vm.runInNewContext(code);
+console.log(result); // 802.4222332991689
+
+code = "return Math.random() * 1000";
+result = vm.runInNewContext(code);
+// ...
+// evalmachine.<anonymous>:1
+// return Math.random() * 1000
+// ^^^^^^
+// SyntaxError: Illegal return statement

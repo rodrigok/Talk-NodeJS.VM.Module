@@ -1,0 +1,8 @@
+const { VM } = require("vm2");
+const vm = new VM();
+
+const code = "this.constructor" +
+	".constructor('return process')().exit()";
+
+vm.run(code);
+// ReferenceError: process is not defined

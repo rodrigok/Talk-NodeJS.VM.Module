@@ -1,0 +1,56 @@
+const vm = require("vm");
+
+console.time("eval");
+
+global.a = 0;
+for (let i = 0; i < 10000; i++) {
+  eval("a++");
+}
+
+console.timeEnd("eval");
+
+let ct = { a: 0 };
+
+console.time("vm");
+
+for (let i = 0; i < 10000; i++) {
+  vm.runInNewContext("a++", { a: ct.a });
+}
+
+console.timeEnd("vm");
+
+console.time("vm");
+
+for (let i = 0; i < 10000; i++) {
+  vm.runInNewContext("a++", ct);
+}
+
+console.timeEnd("vm");
+
+// eval: 12.340ms
+// vm: 3920.339ms
+// vm: 87.096ms
+
+const code = new vm.Script("a++");
+
+console.time("vm");
+
+for (let i = 0; i < 10000; i++) {
+  code.runInNewContext(ct);
+}
+
+console.timeEnd("vm");
+
+// vm: 43.830ms
+
+ct = vm.createContext({ a: 0 });
+
+console.time("vm");
+
+for (let i = 0; i < 10000; i++) {
+  code.runInContext(ct);
+}
+
+console.timeEnd("vm");
+
+// vm: 36.869ms

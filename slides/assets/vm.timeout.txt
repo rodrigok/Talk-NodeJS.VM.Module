@@ -1,0 +1,16 @@
+const vm = require("vm");
+
+const code = "while (true) 1";
+const ct = {};
+const options = { timeout: 3 };
+
+vm.runInNewContext(code, ct, options);
+// Error: Script execution timed out.
+//	at ContextifyScript.Script.runInContext
+
+try {
+  vm.runInNewContext(code, ct, options);
+} catch (err) {
+    // err could be a syntax error, timeout, etc
+  console.error(err);
+}

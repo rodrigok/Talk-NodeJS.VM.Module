@@ -1,0 +1,28 @@
+const vm = require("vm");
+
+let ct, result;
+
+ct = { a: 2 };
+result = vm.runInNewContext("a + 1", ct);
+
+console.log(result); // 3
+
+global.a = 0;
+ct = { a: global.a };
+
+vm.runInNewContext("a += 1", ct);
+
+console.log(global.a); // 0
+console.log(ct.a); // 1
+
+global.a = 0;
+vm.runInNewContext("a += 1");
+// ReferenceError: a is not defined
+
+global.a = 0;
+vm.runInThisContext("a += 1");
+
+console.log(global.a); // 1
+
+vm.runInThisContext("process.exit(0)");
+// process will terminate
